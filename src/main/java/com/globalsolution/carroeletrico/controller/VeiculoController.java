@@ -85,6 +85,8 @@ public class VeiculoController {
 			if(veiculoService.validaVeiculo(veiculoDto)) {
 				Veiculo veiculo = modelMapper.map(veiculoDto, Veiculo.class);
 				
+				veiculo.setAmbiente(ambienteRepository.findById(veiculoDto.getAmbiente()).get());
+				
 				veiculoService.atualizaVeiculo(veiculo, id);
 				
 				return ResponseEntity

@@ -1,5 +1,6 @@
 package com.globalsolution.carroeletrico.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -12,15 +13,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.globalsolution.carroeletrico.model.Ambiente;
-import com.globalsolution.carroeletrico.model.Veiculo;
+import com.globalsolution.carroeletrico.model.Regional;
 import com.globalsolution.carroeletrico.model.dto.AmbienteDto;
-import com.globalsolution.carroeletrico.model.dto.VeiculoDto;
 import com.globalsolution.carroeletrico.repository.AmbienteRepository;
 
 @RestController
@@ -45,7 +44,8 @@ public class AmbienteController {
 	@PreAuthorize("hasRole('user')")
 	public ResponseEntity<?> cadastraAmbiente(@RequestBody AmbienteDto ambienteDto) {
 		Ambiente ambiente = modelMapper.map(ambienteDto, Ambiente.class);
-
+		Regional regional = new Regional("POST", LocalDate.now());
+		ambiente.setRegional(regional);
 		ambienteRepository.save(ambiente);
 
 		return new ResponseEntity<Ambiente>(ambiente, HttpStatus.CREATED);
